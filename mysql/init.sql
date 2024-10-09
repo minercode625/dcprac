@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS guestbook (
     filename VARCHAR(255) NOT NULL
 );
 
-CREATE USER IF NOT EXISTS 'testuser'@'%' IDENTIFIED BY 'testpassword';
+CREATE USER IF NOT EXISTS 'testuser'@'%' IDENTIFIED BY '1234';
 
 GRANT ALL PRIVILEGES ON testdb.* TO 'testuser'@'%';
 FLUSH PRIVILEGES;

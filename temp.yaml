@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flask
+  template:
+    metadata:
+      labels:
+        app: flask
+    spec:
+      containers:
+      - name: flask-app
+        image: minercode/flask-app:latest
+        ports:
+        - containerPort: 5001
+        env:
+        - name: FLASK_PORT
+          value: "5001"
+        - name: MYSQL_HOST
+          value: "mysql"
+        - name: MYSQL_USER
+          value: "testuser"
+        - name: MYSQL_PASSWORD
+          value: "testpassword"
+        - name: MYSQL_DATABASE
+          value: "testdb"
+        volumeMounts:
+        - name: guestbook-volume
+          mountPath: /app/guestbook_entries
+      volumes:
+      - name: guestbook-volume
+        persistentVolumeClaim:
+          claimName: guestbook-pv-claim
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: flask-service
+spec:
+  type: NodePort
+  ports:
+  - port: 5001
+    nodePort: 30001
+  selector:
+    app: flask

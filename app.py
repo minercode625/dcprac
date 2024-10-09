@@ -16,6 +16,8 @@ db_config = {
 }
 
 def connect_to_db():
+    #print all configs
+    print(db_config)
     attempts = 5
     while attempts > 0:
         try:
