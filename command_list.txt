@@ -1,0 +1,18 @@
+docker network create my-network 
+
+docker run --name mysql-container --network my-network
+-e MYSQL ROOT PASSWORD=1234
+-e MYSQL USER=testuser
+-e MYSQL PASSWORD=1234
+-v "[실습 폴더 내 init.sql 절대 경로]":/docker-entrypoint-initdb.d/init.sql
+-v mysql-data:/var/lib/mysql
+-d mysql:latest
+
+docker run --name flask-container --network my-network
+-e FLASK PORT=5001
+-e MYSQL HOST=mysql-container
+-e MYSQL USER=testuser
+-e MYSQL PASSWORD=1234
+-e MYSQL DATABASE=testdb
+-p 5001:5001
+-v guestbook volume:/app/guestbook entries flask-app
